@@ -1,5 +1,4 @@
-# OS-Final-Project
-# Operating Systems Course
+# Final Project for Operating Systems Course
 
 ### Team Members
 - [Arsanios Isaac Helmy](https://github.com/arsaniisaac)
