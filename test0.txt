@@ -1,2 +1,0 @@
-This is text Test file #1 for the first project in fulfillment of the Operating Systems course requirements.
-This project is under the supervision of Dr. Marwa.
