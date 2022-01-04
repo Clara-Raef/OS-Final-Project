@@ -1,2 +1,8 @@
 This is a test file in text format to validate the wcat code written in C. 
 This project is delivered in fulfillment of the Operating Systems course requirements, supervised by Dr. Marwa.
+A read-me file is included, it contains an overview of the full project.
+Also, this project was the result of teamwork efforts by 5 members.
+Our project is graded out of 12 marks.
+This part of the project is graded out of 5.
+The current text file aims to test the wgrep function.
+End of text.
