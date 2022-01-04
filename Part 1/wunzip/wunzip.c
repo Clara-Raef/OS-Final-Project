@@ -1,39 +1,44 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-int main(int argc, char** argv)
-{
-  if (argc == 1) {
-    printf("USAGE: %s file1 [file2...]\n", argv[0]);
-    exit(EXIT_FAILURE);
-  }
-
-  FILE* fd;
-  int c;
-  int count;
-  size_t nread;
-  for (int i = 1; i < argc; i++) {
-    fd = fopen(argv[i], "r");
-    if (!fd) {
-      perror("fopen");
-      exit(EXIT_FAILURE);
+#include <stdbool.h>
+ 
+void process(char* path) {
+    FILE *fp = fopen(path, "r");
+    if (fp == NULL) {
+        printf("wunzip: cannot open file\n");
+        exit(1);
+    }
+ 
+    char bytes[5];
+    int index = 0;
+    do {
+        bytes[index] = fgetc(fp);
+        if( feof(fp) ) {
+            break ;
+        }
+ 
+        index ++;
+        if (index == 5) {
+            int n = (bytes[3] << 24) | (bytes[2] << 16) | (bytes[1] << 8) | bytes[0];
+            char ch = bytes[4];
+            for (int i=0; i < n; i++) {
+                fwrite(&ch , sizeof(char), 1, stdout);
+            }
+            index = 0;
+        }
+    } while(1);
+ 
+    fclose(fp);
+}
+ 
+int main(int argc, char *argv[]) {
+    if (argc < 2) {
+        printf("wunzip: file1 [file2 ...]\n");
+        exit(1);
     }
 
-    while ((nread = fread(&count, sizeof(int), 1, fd)) == 1) {
-      c = fgetc(fd);
-      for (int j = 0; j < count; j++) {
-        printf("%c", c);
-      }
+    for (int i=1; i < argc; i++) {
+        process(argv[i]);
     }
-
-    if (ferror(fd)) {
-      perror("fread");
-      fclose(fd);
-      exit(EXIT_FAILURE);
-    }
-
-    fclose(fd);
-  }
-
-  return 0;
+    return 0;
 }
