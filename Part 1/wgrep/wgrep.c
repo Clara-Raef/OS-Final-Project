@@ -10,8 +10,6 @@ int main(int argc, char *argv[]) {
   else if(argc >= 2) {
     char *searchterm = argv[1]; 
 
-   
-
     FILE *stream;
     size_t currentArgv = 0;
 
@@ -33,7 +31,6 @@ int main(int argc, char *argv[]) {
           return 1;
         }
       }
-
       while(fgets(buffer, sizeof(buffer), stream)) {
         text = realloc(text, strlen(text)+strlen(buffer)+1);
 
@@ -49,19 +46,16 @@ int main(int argc, char *argv[]) {
           text[0] = '\0';
         }
       }
-
       for(size_t i = 0; i < size; i++) {
         printf("%s", output[i]);
         free(output[i]);
       }
-
       if(argc == 2) {
         return 0;
       }
       else {
         fclose(stream);
       }
-
       free(output);
       free(text);
     }
