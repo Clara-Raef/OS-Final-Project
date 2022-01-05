@@ -8,10 +8,10 @@
 
 The project consists of 2 sub-projects, so we filed the repository accordingly. The programming language we used is C.
 
-### Part (1): wcat, wgrep, wzip & wunizp
+## Part (1): wcat, wgrep, wzip & wunizp
 In this part, we cloned the functionality of 4 basic UNIX utilities.
 
-#### 1.1 wcat
+### 1.1 wcat
 A clone of a UNIX command called cat (short for concatenate). This command's function is to display the contents of a file.
 
 - ***Code overview***
@@ -43,7 +43,7 @@ gcc -o wcat wcat.c -Wall -Werror
 ![Test](https://github.com/Clara-Raef/OS-Final-Project/blob/main/Part%201/wcat/test/WCAT%20TEST.jpeg)
 
 
-#### 1.2 wgrep
+### 1.2 wgrep
 A clone of a UNIX command called grep. This command's function is for searching plain-text data sets for lines that match a regular expression.
 
 - ***Code overview***
