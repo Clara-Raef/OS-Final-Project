@@ -24,12 +24,14 @@ gcc -o wcat wcat.c -Wall -Werror
 ```
 We created a text file named (text1.txt) that we wanted to print its contents using our wcat code.
 ![text1](https://github.com/Clara-Raef/OS-Final-Project/blob/main/Part%201/wcat/test/WCAT%20-%20Text%20file.png)
+
 Then we prompted the wcat & the file name
 ```
 ./wcat text1.txt
 ```
 The output:
 ![wcat](https://github.com/Clara-Raef/OS-Final-Project/blob/main/Part%201/wcat/test/WCAT%20TEXT.png)
+
 The result of running the tests from the reference directory:
 ![Test](https://github.com/Clara-Raef/OS-Final-Project/blob/main/Part%201/wcat/test/WCAT%20TEST.jpeg)
 
@@ -46,12 +48,14 @@ gcc -o wgrep wgrep.c -Wall -Werror
 ```
 We created a text file named (text2.txt) that we wanted to print the lines containing the word "This" from it.
 ![text2](https://github.com/Clara-Raef/OS-Final-Project/blob/main/Part%201/wgrep/test/WGREP%20-%20Text%20file.png)
+
 Then we prompted the wgrep & the file name
 ```
 ./wgrep This text2.txt
 ```
 The output:
 ![wgrep](https://github.com/Clara-Raef/OS-Final-Project/blob/main/Part%201/wgrep/test/WGREP.png)
+
 The result of running the tests from the reference directory:
 ![Test](https://github.com/Clara-Raef/OS-Final-Project/blob/main/Part%201/wgrep/test/WGREP%20TEST.jpeg)
 
