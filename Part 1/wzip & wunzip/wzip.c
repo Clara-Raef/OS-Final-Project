@@ -1,51 +1,43 @@
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
+int main(int argc, char *argv[]){
 
-FILE* open_file(char* filename) {
-  FILE* fp = fopen(filename, "r");
-  if (fp == NULL) {
-    printf("wzip: cannot open file\n");
-    exit(1);
-  }
+	if(argc < 2){
+		printf("my-zip: file1 [file2 ...] \n");
+		exit(1);
+	}
 
-  return fp;
-}
+	for(int filenum = 1; filenum < argc; filenum++){
 
-int main(int argc, char** argv) {
-  if (argc < 2) {
-    printf("wzip: file1 [file2 ...]\n");
-    exit(1);
-  }
+		FILE *fp = fopen(argv[filenum], "r");
 
-  FILE* fp;
-  int c = 0;
-  int last = -1;
-  int counter = 0;
-  for (int i = 1; i < argc; i++) {
-    fp = open_file(argv[i]);
+		if(fp == NULL){
+			printf("cannot open file\n");
+			exit(1);
+		}
 
-    while ((c = fgetc(fp)) != EOF) {
-      if (last == -1) {
-        last = c;
-        counter++;
-      } else if (c != last) {
-        fwrite(&counter, sizeof(int), 1, stdout);
-        fputc(last, stdout);
-        counter = 1;
-      } else {
-        counter++;
-      }
+		char buf;
+		buf = fgetc(fp);
+		int count = 1;
+		char temp = buf;
+		buf = fgetc(fp);
 
-      last = c;
-    }
+		while(buf != EOF){
 
-    fclose(fp);
-  }
+			if(buf == temp){
+				count++;
+			}
 
-  if (counter > 0) {
-    fwrite(&counter, sizeof(int), 1, stdout);
-    fputc(last, stdout);
-  }
+			else{
+				fwrite(&count, sizeof(int), 1, stdout);
+				fwrite(&temp, sizeof(temp), 1, stdout);
+				temp = buf;
+				count = 1;
+			}
+			buf = fgetc(fp);
+		}
 
-  return 0;
+		fclose(fp);
+	}
+	return(0);
 }
