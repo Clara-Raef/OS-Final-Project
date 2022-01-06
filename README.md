@@ -94,10 +94,7 @@ A clone of a UNIX command called unzip. This command is used to decompress a cer
 
 - ***Code overview***
 
-The file is first opened 
-
-
-
+The a function of the unzipping process is created and we're going to pass it the path of the file to be decompressed. First, we open the specified file. Then an array is created, and this is where we are going to store the characters of the file until we reach  the end of the file. The bytes of the compressed file are then decompressed by translating the integer of 4 bytes (which resembles the number of occurunces of a character) into a repetition sequence of that same character. The file is then closed.
 
 - The wzip code was compiled as follows:
 
