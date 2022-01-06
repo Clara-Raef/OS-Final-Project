@@ -85,7 +85,7 @@ A clone of a UNIX command called zip. This command is used to compress the files
 
 - ***Code overview***
 
-The code will first make sure whether the user has entered more than 2 arguments. If not, it will print a message informing them of incorrect format. Then, the specified file will be opened. A buffer is created, alongside counter & temporary variables. As long as it's not the end of the file, the command will keep comparing and counting the occurences of each character. When the character isn't repeated anymore, the number of occurences and the character itself are written by fwrite in the compressed file. The file is then closed.
+The file to be compressed will be opened. Then the code will first make sure whether the user has entered more than 2 arguments. If not, it will print a message informing them of incorrect format. Variables of type integer are created to help count and compare how many times a character is repeated. As long as it's not the end of the file, the command will keep comparing and counting the occurences of each character. When the character isn't repeated anymore, the number of occurences and the character itself are written by fwrite in the compressed file. This process is repeated for every different character. The file is then closed.
 _____________________________________________________________________________________________________________________________________________
 
 ### 1.4 wunzip
