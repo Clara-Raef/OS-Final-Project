@@ -132,9 +132,6 @@ The "text3.z" file that was compressed by wzip is now decompressed again and its
 
 ![WunzipTest](https://github.com/Clara-Raef/OS-Final-Project/blob/main/Part%201/wzip%20%26%20wunzip/test/WUNZIP%20TEST.jpeg)
 _____________________________________________________________________________________________________________________________________________
-## Part (2): 
-
-
 
 ##### Reference
 Arpaci-Dusseau, Remzi H., Arpaci-Dusseau, Andrea C.. (2014). Operating Systems: Three Easy Pieces. : Arpaci-Dusseau Books.
