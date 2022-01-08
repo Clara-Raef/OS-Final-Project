@@ -6,6 +6,7 @@
 
 int argcc;
 char **argvv;
+int test = 0;
 
 FILE* open_file(char* filename) {
   FILE* fp = fopen(filename, "r");
@@ -18,6 +19,7 @@ FILE* open_file(char* filename) {
 }
 
 void *thread() {
+	
 
   if (argcc < 2) {
     printf("wzip: file1 [file2 ...]\n");
@@ -30,8 +32,9 @@ void *thread() {
   int counter = 0;
 
   // for each file you entered
-  for (int i = 1; i < argcc; i++) {
-    fp = open_file(argvv[i]);
+
+    
+    fp = open_file(argvv[++test]);
 
     while ((c = fgetc(fp)) != EOF) {
       
@@ -51,31 +54,25 @@ void *thread() {
     }
 
     fclose(fp);
-  }
+     
+  
 
   if (counter > 0) {
     fwrite(&counter, sizeof(int), 1, stdout);
     fputc(previous, stdout);
   }
-
 }
 
-int main(int argc, char** argv)
-{
-
-
+int main(int argc, char** argv){
    argcc = argc;
    argvv = argv;
-   
-   
     int i;
     pthread_t tid;
   
     // Let us create three threads
-    for (i = 0; i < 1; i++)
+   for (i = 0; i < 3; i++){	
         pthread_create(&tid, NULL, thread, (void *)&tid);
-               
-  
+  }
     pthread_exit(NULL);
     return 0;
 }
