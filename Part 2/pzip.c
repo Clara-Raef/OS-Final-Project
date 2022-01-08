@@ -1,104 +1,81 @@
-#include<stdio.h>
-#include<stdlib.h>//malloc
-#include<sys/stat.h>
-#include<assert.h>
-#include<sys/mman.h>//mmap
-#include<semaphore.h>
-#include<pthread.h>
-#include<sys/sysinfo.h>//get_nprocs
-#include<string.h>
-#include<unistd.h>
-#include<sys/stat.h>
-#include<fcntl.h>
-#include<sys/time.h>
-#include<stdatomic.h>
-#include"definitions.h"
-#include"producer_consumer.c"
-#include"zipping.c"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <pthread.h>
+#include <string.h>
 
-struct arguments * init_arg()
-{
-    struct arguments *temp=malloc(sizeof(struct arguments));
-    temp->argc=0;
-    temp->argv=NULL;
-    return temp;
+int argcc;
+char **argvv;
+
+FILE* open_file(char* filename) {
+  FILE* fp = fopen(filename, "r");
+  if (fp == NULL) {
+    printf("wzip: cannot open file\n");
+    exit(1);
+  }
+
+  return fp;
 }
 
-struct node* init()
-{
-    struct node* ptr=malloc(sizeof(struct node));
-    ptr->identity='a';
-    ptr->flag=0;
-    ptr->num=0;
-    ptr->left=NULL;
-    ptr->right=NULL;
-    return ptr;
-}
+void *thread() {
 
-struct bufferobj * init_buff()
-{
-    struct bufferobj *temp= malloc(sizeof(struct bufferobj));
-    temp->filenum=0;
-    temp->pagenum=0;
-    temp->pageinram=NULL;
-    temp->flag=0;
-    temp->lastpagesize=0;
-    return temp;
-}
+  if (argcc < 2) {
+    printf("wzip: file1 [file2 ...]\n");
+    exit(1);
+  }
 
-struct compobj* init_comp()
-{
-    struct compobj *temp=malloc(sizeof(struct compobj));
-    temp->data=NULL;
-    temp->size=0;
-    return temp;
-}
+  FILE* fp;
+  int c = 0;
+  int previous = -1;
+  int counter = 0;
 
-int main(int argc, char* argv[])
-{
-    struct timeval start_time, end_time;
-    filenames=argv;
-    // printf("%s",filenames[1]);
-    //initialize semaphores
-    sem_init(&empty,0,20);//initialized to 20 so that when we run the producer first, it does not sleep
-    sem_init(&full,0,0);//initialized to 0 so that even if a consumer thread runs before the producer, it will be put to sleep
-    sem_init(&mutex,0,1);//only one thread should be able to acquire the lock at a time, hence initialized to a 1
+  // for each file you entered
+  for (int i = 1; i < argcc; i++) {
+    fp = open_file(argvv[i]);
 
-    //create a thread for producer
-    pthread_t p;
-    struct arguments *ptr=init_arg();
-    ptr->argc=argc;
-    ptr->argv=argv;
-    gettimeofday(&start_time, NULL);
-    pthread_create(&p,NULL,producer,(void *)ptr);
+    while ((c = fgetc(fp)) != EOF) {
+      
+      // at first character
+      if (previous == -1) {
+        previous = c;
+        counter++;
+      } else if (c != previous) {
+        fwrite(&counter, sizeof(int), 1, stdout);
+        fputc(previous, stdout);
+        counter = 1;
+      } else {
+        counter++;
+      }
 
-    //create threads for consumers
-    int n_threads=get_nprocs();
-    pthread_t c[n_threads];
-    for(int i=0;i<n_threads;i++)
-    {
-        pthread_create(&c[i],NULL,consumer,NULL);
-    }
-    //join all the threads
-        //consumer
-    for(int i=0;i<n_threads;i++)
-    {
-        pthread_join(c[i],NULL);
-    }
-        //producer
-    pthread_join(p,NULL);
-    gettimeofday(&end_time, NULL);
-    long diff=(end_time.tv_sec-start_time.tv_sec)*1000000 + (end_time.tv_usec-start_time.tv_usec);
-    printf("time: %f seconds\n",diff*0.000001);
-
-    create_compressed_files(compressed,argc);
-
-    //free the mallocs
-    free(pagecnt);
-    for(int i=0;i<argc-2;i++)
-    {
-        free(compressed[i]);
+      previous = c;
     }
 
+    fclose(fp);
+  }
+
+  if (counter > 0) {
+    fwrite(&counter, sizeof(int), 1, stdout);
+    fputc(previous, stdout);
+  }
+
+}
+
+int main(int argc, char** argv)
+{
+
+
+   argcc = argc;
+   argvv = argv;
+   
+   
+    int i;
+    pthread_t tid;
+  
+    // Let us create three threads
+    for (i = 0; i < 1; i++)
+        pthread_create(&tid, NULL, thread, (void *)&tid);
+               
+  
+    pthread_exit(NULL);
     return 0;
 }
