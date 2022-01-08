@@ -79,7 +79,6 @@ int main(int argc, char* argv[])
     {
         pthread_create(&c[i],NULL,consumer,NULL);
     }
-
     //join all the threads
         //consumer
     for(int i=0;i<n_threads;i++)
